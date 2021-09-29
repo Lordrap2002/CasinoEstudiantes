@@ -30,5 +30,6 @@ public:
     long getId() const;
     const string &getNombre() const;
     float getCantGonzos() const;
+    int getCantJuegos();
 };
 #endif //CASINO_JUGADOR_H

@@ -55,28 +55,53 @@ bool Casino::jugar(int idJuego, long idJugador, float gonzosApostar) {
 }
 
 void Casino::verInfoJugador(long idJugador){
-    throw std::logic_error("Metodo por implementar");
+    if (verExisteJugador(idJugador) == false){
+        throw std::domain_error("El jugador con la identificacion recibida NO existe\n");
+    }
+    Jugador * pJugador = jugadoresMap[idJugador];
+    pJugador->mostrarInfo();
 }
 
 bool Casino::verPuedeContinuar(int idJugador, float gonzosApostar) {
-    throw std::logic_error("Metodo por implementar");
-
+    if(verExisteJugador(idJugador) == false){
+        throw std::domain_error("El jugador con la identificacion recibida NO existe");
+    }
+    Jugador *pJugador = jugadoresMap[idJugador];
+    if(pJugador->getCantGonzos() < gonzosApostar){
+        return false;
+    }
+    return true;
 }
 
-void Casino::retirarJugador(long idJugador) {
-    throw std::logic_error("Metodo por implementar");
-
+void Casino::retirarJugador(long idJugador){
+    Jugador * pJugador = jugadoresMap[idJugador];
+    delete pJugador;
+    jugadoresMap.erase(idJugador);
 }
 
-void Casino::recargarGonzos(long idJugador) {
-    throw std::logic_error("Metodo por implementar");
+void Casino::recargarGonzos(long idJugador){
+    if(verExisteJugador(idJugador) == false){
+        throw std::domain_error("El jugador con la identificacion recibida NO existe\n");
+    }
+    float dinero;
+    Jugador * pJugador = jugadoresMap[idJugador];
+    do{
+        cout << "Ingrese la cantidad de dinero  a recargar: ";
+        cin >> dinero;
+    } while(dinero < 0);
+    float gonzos = convertirPesosAGonzos(dinero);
+    pJugador->actualizarGonzos(gonzos);
 }
 
 
 
 bool Casino::verExisteJugador(long id) {
-
-    throw std::logic_error("Metodo por implementar");
+    for(map<long, Jugador*>::iterator it = jugadoresMap.begin(); it != jugadoresMap.end(); it++){
+        if(it->first == id){
+            return true;
+        }
+    }
+    return false;
 }
 
 double Casino::convertirPesosAGonzos(double dinero) {

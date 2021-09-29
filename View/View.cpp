@@ -36,10 +36,28 @@ void View::agregarJugador()
 }
 
 void View::jugarView(){
-    try {
-        throw std::logic_error("Metodo por implementar");
-
-    }catch (std::domain_error ex){
+    try{
+        long idJugador;
+        cout << "Ingrese el id del jugador para el que quiere jugar \n";
+        cin >> idJugador;
+        float cantGonzos;
+        cout << "Cuantos gonzos desea apostar \n";
+        cin >> cantGonzos;
+        int idJuego;
+        bool resultado;
+        cout << "Elija el juego: " << endl;
+        cout << "1. Mayor a 13." << endl;
+        cout << "2. Dos colores." << endl;
+        cout << "3. Mas o menos" << endl;
+        cout << "Opcion: ";
+        cin >> idJuego;
+        resultado = casino.jugar(idJuego, idJugador, cantGonzos);
+        if(resultado){
+            cout << "Haz ganado!" << endl;
+        }else{
+            cout << "Haz perdido :C" << std::endl;
+        }
+    }catch(std::domain_error ex){
         // Se muestran los mensajes de excepcion obtenidos
         cout << ex.what();
     }
@@ -61,14 +79,11 @@ int View::mostrarMenu()
     return opcion;
 }
 
-void View::verPrincipal()
-{
+void View::verPrincipal(){
     int opcion;
-    do
-    {
+    do{
         opcion = mostrarMenu();
-        switch (opcion)
-        {
+        switch(opcion){
             case 1: agregarJugador();
                 break;
             case 2:
@@ -84,7 +99,7 @@ void View::verPrincipal()
                 retirarJugador();
                 break;
         }
-    } while (opcion != 0);
+    }while(opcion != 0);
 }
 
 void View::mostrarJugador() {
@@ -100,10 +115,27 @@ void View::mostrarJugador() {
 }
 
 void View::retirarJugador() {
-    throw std::logic_error("Metodo por implementar");
+    long idJugador;
+    try{
+        cout << "Ingrese el id del jugador: ";
+        cin >> idJugador;
+        casino.verInfoJugador(idJugador);
+        casino.retirarJugador(idJugador);
+        cout << "Jugador retirado con exito." << std::endl;
+    }catch(std::domain_error ex){
+        cout << ex.what();
+    }
 }
 
 void View::recargarGonzos()
 {
-    throw std::logic_error("Metodo por implementar");
+    long idJugador;
+    try{
+        cout << "Ingrese el id del jugador: ";
+        cin >> idJugador;
+        casino.recargarGonzos(idJugador);
+        cout << "Recarga realizada con exito." << std::endl;
+    }catch(std::domain_error ex){
+        cout << ex.what();
+    }
 }
